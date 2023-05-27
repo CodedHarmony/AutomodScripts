@@ -87,7 +87,7 @@ comment: |
 
 ---
 
-#6 spam filter that targets moving off Reddit Chat; with modmail sent further actions
+#6 spam filter that targets OnlyFans, and other sellers; with modmail sent further actions
 type: submission
 set_locked: true
 body+title (includes, regex): ['paid content, '\\bpay me\\b', 'OnlyFans' '\\bOF\\b'] #add in other examples as you find them
