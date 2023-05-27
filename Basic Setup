@@ -1,0 +1,117 @@
+#Contents of Automd rules
+#1 Always lock comments in all posts
+#2 Rule to validate format of the tile
+#3 Sticky comment to each post, linked to Rules Wiki
+#4 Remove the posts based on age
+#5 Remove the posts based on negative karma
+#6 spam filter that targets Onlyfans
+
+---
+
+#1 Always lock comments in all posts, if you don't want comments
+
+type: submission
+set_locked: true
+
+---
+
+#2 Rule to validate format of the tile
+
+# Valid formats contain
+# Age (optional)
+# Gender tags in the format word4word (without enclosing, or between square brackets or parentheses)
+# A title (currently only validates at least a word and anything else thereafter)
+type: submission
+set_locked: true
+~title (regex): '^(\d{2}\w*)? ?(\[[\w\/]+4[\w\/|]+\]|\([\w\/]+4[\w\/|]+\)|[\w\/]+4[\w\/]+)\.*'
+action: remove
+action_reason: "Malformed title"
+moderators_exempt: false
+comment: |
+    Your title doesn't have a proper format.    
+    Please be sure to include at least gender tags at the start of your title and a short description of your prompt.   
+    Only your age can be included before the gender tags.  
+    Gender tags can have any word if you want to be more specific, but they're not officially supported and would be harder to use with the search function.  
+     
+    Examples:    
+    * [M4F] Let's Play a Game  
+    * 24 [F4F] lookin for a bestie  
+    * (M4TF/F/Femboy) Let's have some fun  
+    * 32M4F Looking for a girl to keep me distracted while I'm at work 
+    * Make sure there are no white spaces in your brackets, otherwise it will not validate.
+
+---
+
+#3 Rule to automatically comment and sticky Rules
+
+type: submission
+set_locked: true
+comment_stickied: true
+comment: |
+    Welcome to [insert sub], we are a new communuty and if you wish to take part please abide by the [rules](insert link) we have in place. A few guidelines for our community are:
+    * Any posts that are not relevant to this sub will be removed
+    * No posting of spam.
+    * Be civil & respectful to other members.
+    * Low effort posts, including memes, will be removed with further moderation action possible.
+
+---
+
+
+#4 Remove the posts based on age
+
+author:
+    account_age: "< 5 days" #change to suit your sub
+action: remove
+action_reason: "New account ({{kind}}) ({{match}})" 
+comment_stickied: true 
+comment: |
+    Your account does not meet the post or comment requirements, that can mean Automod found:
+    
+    * A new account. We don't allow new accounts to post in the sub. 
+    * **Do not message the mod team about this**, we will not approve your post.
+ 
+---
+
+#5 Remove the posts based on negative karma
+type: any
+author:
+    combined_karma: '< 5' #change to suit your sub
+action: remove
+action_reason: "Account with negative karma ({{kind}}) ({{match}})"
+comment_stickied: true 
+comment: |
+    Your account does not meet the post or comment requirements, that can mean Automod found:
+ 
+    * Not enough karma. 
+    * **Do not message the mod team about this**, we will not approve your post.
+
+---
+
+#6 spam filter that targets moving off Reddit Chat; with modmail sent further actions
+type: submission
+set_locked: true
+body+title (includes, regex): ['paid content, '\\bpay me\\b', 'OnlyFans' '\\bOF\\b'] #add in other examples as you find them
+action: remove
+action_reason: "Spam removal (OnlyFans) ({{kind}}) ({{match}})" 
+comment: |
+    Sorry, your submission was removed due to being Spam!  
+    This can mean AutoMod found in your post:  
+    
+    * Keywords or phrases attributed to selling.  
+    * Keywords or phrases attributed to asking for OnlyFans.  
+    * Keywords or phrases mentioning paid for content.  
+    
+    Further moderation action will be taken. Be sure to check the [Rule Wiki Page](insert link).
+    
+modmail: |
+  A post or comment has been removed due to containing the string "OnlyFans", or spam.
+  
+  User: /u/{{author}}
+  Post/Comment: {{kind}}
+  Reason: {{match}}
+    
+    ---
+    
+    
+    
+    
