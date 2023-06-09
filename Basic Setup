@@ -5,6 +5,7 @@
 #4 Remove the posts based on age
 #5 Remove the posts based on negative karma
 #6 spam filter that targets Onlyfans
+#7 Whitelist for links (Blocks all not on it)
 
 ---
 
@@ -112,6 +113,20 @@ modmail: |
     
     ---
     
+#7 Non white listed links removed
+type: submission
+set_locked: true
+url+body (regex): ['https?://(?!\S*(imgur\.io|imgur\.com|redgifs\.com|i\.redd\.it|reddit\.com))[\w\.\-]+'] #add links in to sites that are allowed here
+
+# The "(?!...)" syntax is called Negative Lookahead, meaning- "only match if what's before the parenthesis isn't directly followed by what's inside the parenthesis (after the ?!)"
+# The "\S*" means any amount of non-space characters (meaning it's all part of the http url)
+# The "[\w\.\-]+" is to match the actual domain for the {{match}} below
+
+action: remove
+action_reason: "Post linking to a non-whitelisted domain ({{match}})"
+comment: |
+  Your {{kind}} submission has been removed as it contains a link to a website that is not allowed in this subreddit. Only links to imgur, redgifs, and Reddit are allowed.
     
+   ---   
     
     
